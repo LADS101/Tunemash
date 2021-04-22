@@ -1,12 +1,16 @@
+
+import "./navbar.css"
+
 const Navbar = () => {
   return (
     <nav className="navbar">
+
+      <link rel="stylesheet" href="navbar.css"></link>
       <h1>Tunemash</h1>
-      <div className="links">
-        <a href="/">Home</a>
-        <a href="/Song">Song</a>
-        <a href="/About">About</a>
-      </div>
+        <a href="/" button class="Home">Home </a>
+        <a href="/Song" button class="Song">Song</a>
+        <a href="/About" button class="About">About</a>
+  
     </nav>
   );
 }
