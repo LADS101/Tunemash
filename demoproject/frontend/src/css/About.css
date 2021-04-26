@@ -1,0 +1,17 @@
+.About {
+  text-align: center;
+  /*background-color: lightblue;*/
+}
+
+body {
+    background: rgba(0, 0, 0, 1);
+    margin: 0;
+    color: whitesmoke;
+    font-size: x-big;
+
+    font-family: 'Garamond' , 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
