@@ -4,6 +4,28 @@ const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
 
+const { OAuth2Client } = require('google-auth-library')
+const clientId =
+  '707788443358-u05p46nssla3l8tmn58tpo9r5sommgks.apps.googleusercontent.com';
+const client = new OAuth2Client(clientId)
+
+
+const googleAuth = async (token) => {
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID
+    });
+
+    const payLoad = ticket.getPayload();
+    console.log('User ' + payLoad.name + ' verified');
+
+    const { sub, email, name, picture } = payLoad;
+    const userId = sub;
+    return { userId, email, fullName: name, photoUrl: picture };
+};
+
+module.exports = googleAuth;
+
 
 var db = mysql.createConnection({
     host: '35.239.133.63',
@@ -31,6 +53,22 @@ var db = mysql.createConnection({
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.get("/api/getAuth", (require, response) => {
+    // alert("Reached the getAuth")
+    // console.log(require)
+    tokenID = require.headers.authorization
+    console.log(tokenID)
+    // googleAuth(tokenID)
+
+
+
+    response.send(googleAuth(tokenID))
+
+    console.log(googleAuth(tokenID))
+
+
+});
 
 app.get("/api/get", (require, response) => {
     const tempo = parseFloat(require.query.T);

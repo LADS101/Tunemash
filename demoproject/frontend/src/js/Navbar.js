@@ -6,7 +6,7 @@ const Navbar = () => {
 
       <link rel="stylesheet" href="navbar.css"></link>
       <h1>Tunemash</h1>
-      <a href="/" button class="Home">Home </a>
+      <a href="/Home" button class="Home">Home </a>
       <a href="/Song" button class="Song">Song</a>
       <a href="/About" button class="About">About</a>
       <a href="/Contact" button class="Contact">Contact Us</a>
