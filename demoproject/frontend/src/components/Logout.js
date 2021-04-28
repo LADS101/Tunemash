@@ -8,6 +8,7 @@ function Logout() {
   const onSuccess = () => {
     console.log('Logout made successfully');
     alert('Logout made successfully ✌');
+    window.location.replace('http://localhost:3000/')
   };
 
   return (

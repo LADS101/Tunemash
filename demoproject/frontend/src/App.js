@@ -65,17 +65,19 @@ function App() {
         <Navbar />
           <Switch>
           <Route exact path="/">
-              <Dashboard />
+              <h4>Welcome To Tunemash!</h4>
+              <p>In order to be able unleash your musical creativity, please log in:</p>
               <Login />
-              <Logout />
             </Route>
 
             <Route exact path="/Home">
               <Home />
+              <Logout />
             </Route>
 
             <Route path="/Song">
               <Song />
+              <Logout />
             </Route>
 
             <Route path="/About">
@@ -84,6 +86,7 @@ function App() {
 
             <Route path="/Contact">
               <Contact />
+              <Logout />
             </Route>
           </Switch>
       </div>
