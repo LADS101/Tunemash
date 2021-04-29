@@ -71,111 +71,122 @@ app.get("/api/getAuth", (require, response) => {
 });
 
 app.get("/api/get", (require, response) => {
-    const tempo = parseFloat(require.query.T);
-    const danceability = parseFloat(require.query.D);
+    const Year = parseInt(require.query.Year);
+    const Danceability = parseFloat(require.query.Danceability);
+    const Acousticness = require.query.Acousticness;
+    const Duration_ms = require.query.Duration_ms;
+    const Instrumentalness = require.query.Instrumentalness;
+    const Tempo = require.query.Tempo;
+    const Valence = require.query.Valence;
+    const Speechiness = require.query.Speechiness;
 
-    // const tempo = 155;
-    // const danceability = 0.5;
+    const lYear = Year - 15;
+    const hYear = Year + 15;
 
-    console.log(tempo);
-    console.log(danceability);
+    const lDanceability = Danceability - 0.2;
+    const hDanceability = Danceability + 0.2;
 
-    const ltempo = tempo - 5;
-    const utempo = tempo + 5;
-    const ldance = danceability - 0.1;
-    const udance = danceability + 0.1;
+    const lAcousticness = Acousticness - 0.2;
+    const hAcousticness = Acousticness + 0.2;
 
-    const sqlSelect = "SELECT * FROM `Query` WHERE (`Tempo` >= ? AND `Tempo` <= ?) OR (`Danceability` >= ? AND `Danceability` <= ?) LIMIT 5";
-    db.query(sqlSelect, [ltempo, utempo, ldance, udance], (err, result) => {
-        if (err) {
-            console.log("Reached error")
-            console.log(err);
+    const lDuration_ms = Duration_ms - 15000;
+    const hDuration_ms = Duration_ms + 15000;
 
-        }
-        //console.log(result);
+    const lInstrumentalness = Instrumentalness - 0.2;
+    const hInstrumentalness = Instrumentalness + 0.2;
+
+    const lTempo = Tempo - 20;
+    const hTempo = Tempo + 20;
+
+    const lValence = Valence - 0.2;
+    const hValence = Valence + 0.2;
+
+    const lSpeechiness = Speechiness - 0.2;
+    const hSpeechiness = Speechiness + 0.2;
+
+
+
+    const sqlSelect = "SELECT * FROM `Song` WHERE `Year` BETWEEN ? AND ? " +
+                                            "AND `Danceability` BETWEEN ? AND ? " + 
+                                            "AND `Acousticness` BETWEEN ? AND ? " +
+                                            "AND `Duration_ms` BETWEEN ? AND ? " +
+                                            "AND `Instrumentalness` BETWEEN ? AND ? " + 
+                                            "AND `Tempo` BETWEEN ? AND ? " + 
+                                            "AND `Valence` BETWEEN ? AND ? " + 
+                                            "AND `Speechiness` BETWEEN ? AND ? LIMIT 5";
+    db.query(sqlSelect, [lYear, hYear, 
+                        lDanceability, hDanceability,
+                        lAcousticness, hAcousticness,
+                        lDuration_ms, hDuration_ms,
+                        lInstrumentalness, hInstrumentalness,
+                        lTempo, hTempo,
+                        lValence, hValence,
+                        lSpeechiness, hSpeechiness], (err, result) => {
+        if (err) 
+        console.log(err);
 
         response.send(result);
-        console.log("pls work");
     })
 
 });
+
+
+app.get("/api/getByName", (require, response) => {
+    const name = (require.query.SongName).toString();
+
+    console.log(typeof(name));
+
+    console.log(name)
+
+    const sqlSelect = "SELECT * FROM `Song` WHERE `Name` = ?";
+
+    db.query(sqlSelect, [name], (err, result) => {
+        if (err) 
+        console.log(err);
+
+        console.log("Reached after error");
+        console.log(JSON.stringify(result));
+
+        response.send(result);
+    })
+
+});
+
 
 app.post("/api/insert", (require, response) => {
-    const QueryID = require.body.QueryID;
-    const Username = require.body.Username;
-    const Date = require.body.Date;
-    const QueryString = require.body.QueryString;
-    const Year = require.body.Year;
+    const SongName = require.body.SongName;
     const Acousticness = require.body.Acousticness;
     const Danceability = require.body.Danceability;
-    const Duration_ms = require.body.Duration_ms
+    const Duration_ms = require.body.Duration_ms;
+    const SongID = require.body.SongID;
     const Instrumentalness = require.body.Instrumentalness;
     const Popularity = require.body.Popularity;
-    const Speechiness = require.body.Speechiness;
     const Tempo = require.body.Tempo;
     const Valence = require.body.Valence;
+    const Year = require.body.Year;
+    const Speechiness = require.body.Speechiness;
 
-    const sqlInsert = "INSERT INTO `Query` (`QueryID`, `Username`, `Date`, `QueryString`," +
-        "`Year`, `Acousticness`, `Danceability`, `Duration_ms`,`Instrumentalness`, `Popularity`, " +
-        "`Speechiness`, `Tempo`, `Valence`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    const sqlInsert = "INSERT INTO `Song` (`Acousticness`, `Danceability`, `Duration_ms`, `SongID`," +
+    "`Instrumentalness`, `Name`, `Popularity`, `Speechiness`,`Tempo`, `Valence`, `Year`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
-    db.query(sqlInsert, [QueryID, Username, Date, QueryString,
-        Year, Acousticness, Danceability, Duration_ms, Instrumentalness, Popularity,
-        Speechiness, Tempo, Valence], (err, result) => {
-            if (err)
-                console.log(err);
-
-            response.send(result);
-        })
-});
-
-app.delete("/api/delete:Username", (require, response) => {
-    const username = require.params.Username;
-
-    const sqlDelete = "DELETE FROM `Query` WHERE `Username` = ?";
-    db.query(sqlDelete, username, (err, result) => {
+    db.query(sqlInsert, [Acousticness, Danceability, Duration_ms, SongID
+                            , Instrumentalness, SongName, Popularity, Speechiness
+                                , Tempo, Valence, Year], (err, result) => {
         if (err)
             console.log(err);
-        console.log(result);
+
         response.send(result);
+    
     })
 });
 
-app.put("/api/update", (require, response) => {
-    const initQuery = require.body.InitQuery;
-    const changedQuery = require.body.UpdatedQuery;
+app.delete("/api/delete/:Songname", (require, response) => {
+    const Songname = require.params.Songname;
 
-    console.log(initQuery)
-    console.log(changedQuery)
-
-    const sqlUpdate = "UPDATE `Query` SET `QueryString` = ? WHERE `QueryString`= ?";
-    db.query(sqlUpdate, [changedQuery, initQuery], (err, result) => {
-        if (err)
+    const sqlDelete = "DELETE FROM `Song` WHERE `Name`= ?";
+    db.query(sqlDelete, Songname, (err, result) => {
+        if (err) 
             console.log(err);
-        response.send(result)
-    })
-});
-
-app.get("/api/complex", (require, response) => {
-    const movieName = require.body.movieName;
-    const movieReview = require.body.movieReview;
-
-    const sqlUpdate = "SELECT q.Date AS query_date, q.Username AS username, q.QueryString AS queried_song " +
-    "FROM Query q JOIN Song s ON q.QueryString = s.Name " +
-    "WHERE s.Year > 1970 " +
-
-    "UNION " +
-
-    "SELECT q.Date AS query_date, q.Username AS username, q.QueryString AS queried_song " +
-    "FROM Query q JOIN Song s ON q.QueryString = s.Name " +
-    "WHERE s.Popularity > 10 " +
-
-    "ORDER BY query_date ASC " +
-    "LIMIT 15";
-    db.query(sqlUpdate, function (err, result) {
-        if (err)
-            console.log(err);
-        response.send(result)
     })
 });
 

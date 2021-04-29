@@ -22,34 +22,21 @@ const Song = () => {
   const [Tempo, setTempo] = useState(50);
   const [Valence, setValence] = useState(0.5);
 
-
-  useEffect(() => {
-    Axios.get('http://localhost:3002/api/get').then((response) => {
-      setMovieReviewList(response.data)
-    })
-  }, [])
-
-  const submitReview = () => {
-    Axios.post('http://localhost:3002/api/insert', {
-      movieName: movieName,
-      movieReview: Review
-    });
-  }
-
   const selectSong = () => {
-    // alert("Danceability: " + Danceability)
-    // alert("Tempo: "+ Tempo)
-
-    // alert(document.getElementById("SearchSongName").value)
+    alert("Running knn")
     Axios.get('http://localhost:3002/api/get', {
       params: {
-        T: Tempo,
-        D: Danceability,
+      Year: Year,
+      Acousticness: Acousticness,
+      Danceability: Danceability,
+      Duration_ms: Duration,
+      Instrumentalness: Instrumentalness,
+      Speechiness: Speechiness,
+      Tempo: Tempo,
+      Valence: Valence
       }
     }).then((response) => {
-      // alert(response.data.toString());
-      // alert("Reached here")
-      // console.log("Back in app.js")
+      
       document.getElementById("searchResult").innerHTML = JSON.stringify(response.data)
 
       console.log(JSON.stringify(response.data));
@@ -80,31 +67,20 @@ const Song = () => {
   }
 
   const createSong = () => {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-
-    today = yyyy + '-' + mm + '-' + dd;
-    alert(today)
-    alert(typeof (today))
     Axios.post('http://localhost:3002/api/insert', {
-      QueryID: parseInt(document.getElementById("QueryID").value) || '',
-      Username: document.getElementById("Username").value,
-      Date: today,
-      QueryString: document.getElementById("QueryString").value,
-      Year: parseInt(document.getElementById("Year").value) || -1,
-      Acousticness: parseFloat(document.getElementById("Acousticness").value) || -1,
-      Danceability: parseFloat(document.getElementById("Danceability").value) || -1,
-      Duration_ms: parseInt(document.getElementById("Duration_ms").value) || -1,
-      Instrumentalness: parseFloat(document.getElementById("Instrumentalness").value) || -1,
-      Popularity: parseInt(document.getElementById("Popularity").value) || -1,
-      Speechiness: parseFloat(document.getElementById("Speechiness").value) || -1,
-      Tempo: parseInt(document.getElementById("Tempo").value) || -1,
-      Valence: parseFloat(document.getElementById("Valence").value) || -1,
+      Year: parseInt(document.getElementById("Year").value),
+      SongName: document.getElementById("SongName").value,
+      SongID: document.getElementById("SongID").value,
+      Acousticness: parseFloat(document.getElementById("Acousticness").value),
+      Danceability: parseFloat(document.getElementById("Danceability").value),
+      Duration_ms: parseInt(document.getElementById("Duration").value),
+      Instrumentalness: parseFloat(document.getElementById("Instrumentalness").value),
+      Popularity: parseInt(document.getElementById("Popularity").value),
+      Speechiness: parseFloat(document.getElementById("Speechiness").value),
+      Tempo: parseInt(document.getElementById("Tempo").value),
+      Valence: parseFloat(document.getElementById("Valence").value)
     }).then((response) => {
-      // alert(response.data.toString());
-      alert("Reached here")
+      alert("Song Created!")
       alert(response.data)
       console.log(response.data);
     }).catch((err) => {
@@ -116,77 +92,20 @@ const Song = () => {
     // alert(x.value);
   }
 
-  const updateSong = () => {
-    alert("Song updated");
-    const iQ = document.getElementById("query_update").value
-    const uQ = document.getElementById("query_changed").value
-
-    alert(iQ)
-    alert(uQ)
-    Axios.put(`http://localhost:3002/api/update`, {
-      InitQuery: iQ,
-      UpdatedQuery: uQ
-    });
-  }
-
   const deleteSong = () => {
-    alert("Related feed deleted")
-    alert(document.getElementById("Username_del").value)
-    const Username = document.getElementById("Username_del").value
-    Axios.delete(`http://localhost:3002/api/delete${Username}`, {
+    const Songname = document.getElementById("DeleteSongName").value
+
+    alert(Songname);
+
+    Axios.delete(`http://localhost:3002/api/delete/${Songname}`, {
 
     }).then((response) => {
-      // alert(response.data.toString());
-      alert("Reached here")
-      alert(response.data)
-      console.log(response.data);
+      alert("Song Deleted!")
     }).catch((err) => {
-      alert("Reached here error")
       console.log(err)
     })
   }
 
-  const submitQuery = () => {
-    // Axios.post('http://localhost:3002/api/insert', {
-    //   movieName: movieName,
-    //   movieReview: Review
-    // }
-    alert("Submit Button was clicked.")
-    alert(Danceability)
-  }
-
-
-  const deleteReview = (movieName) => {
-    Axios.delete(`http://localhost:3002/api/delete/${movieName}`);
-  };
-
-  const updateReview = (movieName) => {
-    Axios.put(`http://localhost:3002/api/update`, {
-      movieName: movieName,
-      movieReview: newReview
-    });
-    setNewReview("")
-  };
-
-  const getPopularMusic = () => {
-    document.body.innerHTML = "PLease"
-    alert("Hello World!");
-
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
-
-    for (i = 0; i < coll.length; i++) {
-      coll[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.display === "block") {
-          content.style.display = "none";
-        } else {
-          content.style.display = "block";
-        }
-      });
-    }
-  }
 
   return (
    
@@ -207,7 +126,7 @@ const Song = () => {
             <input type="text" id="Acousticness" name="Acousticness"></input><br></br>
             <label for="Danceability">Danceability:</label>
             <input type="text" id="Danceability" name="Danceability"></input><br></br>
-            <label for="Danceability">Duration:</label>
+            <label for="Duration">Duration:</label>
             <input type="text" id="Duration" name="Duration"></input><br></br>
             <label for="Instrumentalness">Instrumentalness:</label>
             <input type="text" id="Instrumentalness" name="Instrumentalness"></input><br></br>
@@ -235,10 +154,28 @@ const Song = () => {
 
           <b><h3>Search/Read Song Details</h3></b>
 
-          <form>
+          {/* <form>
             <label for="SongName">Song Name:</label>
-            <input type="text" id="SearchSongName" name="SearchSongName"></input><br></br>
-          </form>
+            <input type="text" id="SearchSongName" name="SearchSongName" onChange={e => {
+              setSongName(e.target.value);
+            }}></input><br></br>
+          </form> */}
+
+          <a>Year: </a>
+          <RangeStepInput min={1850} max={2021}
+            step={1}
+            onChange={e => {
+              setYear(e.target.value);
+            }}
+          />
+
+          <a>Acousticness: </a>
+          <RangeStepInput min={0} max={1}
+            step={0.1}
+            onChange={e => {
+              setAcousticness(e.target.value);
+            }}
+          />
 
           <a>Danceability: </a>
           <RangeStepInput min={0} max={1}
@@ -248,8 +185,50 @@ const Song = () => {
             }}
           />
 
+          <a>Instrumentalness: </a>
+          <RangeStepInput min={0} max={1}
+            step={0.1}
+            onChange={e => {
+              setInstrumentalness(e.target.value);
+            }}
+          />
 
-          {/* <button onClick={selectSong}> Search</button> */}
+          <a>Duration (ms): </a>
+          <RangeStepInput min={0} max={5}
+            step={0.1}
+            onChange={e => {
+              setDuration(e.target.value);
+            }}
+          />
+
+          <a>Speechiness: </a>
+          <RangeStepInput min={0} max={1}
+            step={0.1}
+            onChange={e => {
+              setSpeechiness(e.target.value);
+            }}
+          />
+
+          <a>Tempo: </a>
+          <RangeStepInput min={0} max={1}
+            step={0.1}
+            onChange={e => {
+              setTempo(e.target.value);
+            }}
+          />
+
+          <a>Valence: </a>
+          <RangeStepInput min={0} max={1}
+            step={0.1}
+            onChange={e => {
+              setValence(e.target.value);
+            }}
+          />
+
+          <button onClick={selectSong}> Search</button>
+          <table></table>
+
+          <p id="searchResult"></p>
 
           <br></br>
           <br></br>
@@ -260,7 +239,7 @@ const Song = () => {
 
 
 
-
+{/* 
         <div label="Update">
 
           <b><h3>Update Songs by Entering Song Name and updated Details</h3></b>
@@ -293,7 +272,7 @@ const Song = () => {
 
           <br></br>
 
-        </div>
+        </div> */}
 
         <div label="Delete">
 
