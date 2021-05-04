@@ -70,6 +70,59 @@ app.get("/api/getAuth", (require, response) => {
 
 });
 
+
+
+app.post("/api/insertReview", (require, response) => {
+
+    const songName = require.body.Song;
+
+    const songReview = require.body.Review
+    const songRating = parseInt(require.body.Ratings)
+    console.log(songName)
+
+
+    const sqlInsert = "INSERT INTO Reviews (`Song`, `Review`, `Ratings`)" +
+        " VALUES (?,?,?)";
+
+    db.query(sqlInsert, [songName, songReview, songRating], (err, result) => {
+            if (err)
+                console.log(err);
+
+            response.send(result);
+        })
+});
+
+
+
+
+
+app.get("/api/getReview", (require, response) => {
+
+    //const songName = require.params.SongName
+    const songName = require.query.SongName
+    
+    // const tempo = 155;
+    // const danceability = 0.5;
+    console.log(songName + " something")
+
+    const sqlSelect = "SELECT * FROM `Reviews` Where `Song` = ?" 
+    db.query(sqlSelect, [songName], (err, result) => {
+        if (err) {
+            console.log("Reached error")
+            console.log(err);
+
+        }
+        //console.log(result);
+
+        response.send(result);
+        console.log("pls work");
+    })
+
+});
+
+
+
+
 app.get("/api/get", (require, response) => {
     const Year = parseInt(require.query.Year);
     const Danceability = parseFloat(require.query.Danceability);
@@ -130,7 +183,6 @@ app.get("/api/get", (require, response) => {
 
 });
 
-
 app.get("/api/getByName", (require, response) => {
     const name = (require.query.SongName).toString();
 
@@ -151,6 +203,23 @@ app.get("/api/getByName", (require, response) => {
     })
 
 });
+
+
+app.get("/api/getSpecial", (require, response) => {
+    console.log("JI")
+    const val = parseInt(require.query.Number);
+    db.query(`CALL Result(?)`, [val], (error, results, fields) => {
+        if (error) {
+            return console.error(error.message);
+        }
+        // var i;
+        // for (i = 0; i < results[0].length; i++)
+        //     console.log(JSON.stringify(results[0][i]));
+        
+        response.send(results[0])
+    });
+});
+
 
 
 app.post("/api/insert", (require, response) => {
