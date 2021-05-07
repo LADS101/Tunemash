@@ -24,7 +24,7 @@ const Song = () => {
   const [Valence, setValence] = useState(0.5);
 
   const selectSong = () => {
-    alert("Running knn")
+    // alert("Running knn")
     Axios.get('http://localhost:3002/api/get', {
       params: {
       Year: Year,
@@ -37,9 +37,8 @@ const Song = () => {
       Valence: Valence
       }
     }).then((response) => {
-      
       // document.getElementById("searchResult").innerHTML = JSON.stringify(response.data)
-      alert(JSON.stringify(response.data))
+      // alert(JSON.stringify(response.data))
 
       var table = document.getElementById("songTableData");
         
@@ -142,21 +141,16 @@ const Song = () => {
       Valence: parseFloat(document.getElementById("Valence").value)
     }).then((response) => {
       alert("Song Created!")
-      alert(response.data)
+      // alert(response.data)
       console.log(response.data);
     }).catch((err) => {
       alert("Reached here error")
       console.log(err)
     })
-
-    // var x = document.getElementById("Acousticness")
-    // alert(x.value);
   }
 
   const deleteSong = () => {
     const Songname = document.getElementById("DeleteSongName").value
-
-    alert(Songname);
 
     Axios.delete(`http://localhost:3002/api/delete/${Songname}`, {
 
@@ -205,35 +199,35 @@ const Song = () => {
 
   return (
     
-      <div label="Songs">
+    <div label="Songs">
       <link rel="stylesheet" href="../css/Song.css" /> 
         <b><h3>Create Song</h3></b>
 
         <div label="Create">
 
-          <form>
+          <form style={{margin:"1%"}}>
             <label for="SongName">Song Name:</label>
-            <input type="text" id="SongName" name="SongName"></input><br></br>
+            <input type="text" id="SongName" name="SongName" class="songui"></input><br></br>
             <label for="Year">Year:</label>
-            <input type="text" id="Year" name="Year"></input><br></br>
+            <input type="text" id="Year" name="Year" class="songui"></input><br></br>
             <label for="SongID">Song ID:</label>
-            <input type="text" id="SongID" name="SongID"></input><br></br>
+            <input type="text" id="SongID" name="SongID" class="songui"></input><br></br>
             <label for="Acousticness">Acousticness:</label>
-            <input type="text" id="Acousticness" name="Acousticness"></input><br></br>
+            <input type="text" id="Acousticness" name="Acousticness" class="songui"></input><br></br>
             <label for="Danceability">Danceability:</label>
-            <input type="text" id="Danceability" name="Danceability"></input><br></br>
+            <input type="text" id="Danceability" name="Danceability" class="songui"></input><br></br>
             <label for="Duration">Duration:</label>
-            <input type="text" id="Duration" name="Duration"></input><br></br>
+            <input type="text" id="Duration" name="Duration" class="songui"></input><br></br>
             <label for="Instrumentalness">Instrumentalness:</label>
-            <input type="text" id="Instrumentalness" name="Instrumentalness"></input><br></br>
+            <input type="text" id="Instrumentalness" name="Instrumentalness" class="songui"></input><br></br>
             <label for="Popularity">Popularity:</label>
-            <input type="text" id="Popularity" name="Popularity"></input><br></br>
+            <input type="text" id="Popularity" name="Popularity" class="songui"></input><br></br>
             <label for="Speechiness">Speechiness:</label>
-            <input type="text" id="Speechiness" name="Speechiness"></input><br></br>
+            <input type="text" id="Speechiness" name="Speechiness" class="songui"></input><br></br>
             <label for="Tempo">Tempo:</label>
-            <input type="text" id="Tempo" name="Tempo"></input><br></br>
+            <input type="text" id="Tempo" name="Tempo" class="songui"></input><br></br>
             <label for="Valence">Valence:</label>
-            <input type="text" id="Valence" name="Valence"></input><br></br>
+            <input type="text" id="Valence" name="Valence" class="songui"></input><br></br>
           </form>
 
           <button onClick={createSong}> Submit</button>
@@ -256,7 +250,7 @@ const Song = () => {
               setSongName(e.target.value);
             }}></input><br></br>
           </form> */}
-
+        <div id="lem">
           <a>Year: </a>
           <RangeStepInput min={1920} max={2021}
             step={10}
@@ -320,6 +314,7 @@ const Song = () => {
               setValence(e.target.value);
             }}
           />
+          </div>
 
           <button onClick={selectSong}> Search</button>
           <table id="songTableData" class="tableClass"></table>
@@ -374,9 +369,9 @@ const Song = () => {
 
           <b><h3>Enter Song Name to Delete</h3></b>
 
-          <form>
+          <form style={{margin: "1%"}}>
             <label for="SongName">Song name (to be deleted):</label>
-            <input type="text" id="DeleteSongName" name="DeleteSongName"></input><br></br>
+            <input type="text" id="DeleteSongName" name="DeleteSongName" class="songui"></input><br></br>
           </form>
 
           <button onClick={deleteSong}> Delete</button>
@@ -387,11 +382,8 @@ const Song = () => {
 
 
           <div label="Special">
-
           <b><h3>Special Hits</h3></b>
-
             <button onClick={selectSpecialList}> Special</button>
-
           <p id="specialResult"></p>
 
           </div>

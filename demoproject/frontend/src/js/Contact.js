@@ -6,7 +6,7 @@ function Contact() {
   return (
     <div className="contact">
       
-      <form action="#" method="post">
+      <form action="#" method="post" style={{margin:"0% 5%"}}>
         <h1>Contact Us</h1>
         <p>Want to share your experience? Tune us</p>
 
