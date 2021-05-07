@@ -1,3 +1,4 @@
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
@@ -98,9 +99,7 @@ app.post("/api/insertReview", (require, response) => {
 
 app.get("/api/getReview", (require, response) => {
 
-    //const songName = require.params.SongName
     const songName = require.query.SongName
-    
     // const tempo = 155;
     // const danceability = 0.5;
     console.log(songName + " something")
@@ -112,10 +111,8 @@ app.get("/api/getReview", (require, response) => {
             console.log(err);
 
         }
-        //console.log(result);
-
+        console.log(result);
         response.send(result);
-        console.log("pls work");
     })
 
 });
