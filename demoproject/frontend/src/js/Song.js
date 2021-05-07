@@ -13,14 +13,14 @@ const Song = () => {
 
   const [SongName, setSongName] = useState("");
   const [SongID, setSongID] = useState("");
-  const [Year, setYear] = useState(2010);
+  const [Year, setYear] = useState(1970);
   const [Acousticness, setAcousticness] = useState(0.5);
-  const [Duration, setDuration] = useState(100);
+  const [Duration, setDuration] = useState(300000);
   const [Danceability, setDanceability] = useState(0.5);
   const [Instrumentalness, setInstrumentalness] = useState(0.5);
   const [Popularity, setPopularity] = useState(5);
-  const [Speechiness, setSpeechiness] = useState(0.2);
-  const [Tempo, setTempo] = useState(50);
+  const [Speechiness, setSpeechiness] = useState(0.5);
+  const [Tempo, setTempo] = useState(122);
   const [Valence, setValence] = useState(0.5);
 
   const selectSong = () => {
@@ -38,9 +38,69 @@ const Song = () => {
       }
     }).then((response) => {
       
-      document.getElementById("searchResult").innerHTML = JSON.stringify(response.data)
+      // document.getElementById("searchResult").innerHTML = JSON.stringify(response.data)
+      alert(JSON.stringify(response.data))
 
-      console.log(JSON.stringify(response.data));
+      var table = document.getElementById("songTableData");
+        
+        while (table.hasChildNodes()) {
+          table.removeChild(table.firstChild);
+        }
+    
+        var initRow = table.insertRow(0);
+
+        for(let index = 1; index < (response.data).length + 1; index++) {
+          var row = table.insertRow(index);
+
+          var name = row.insertCell(0);
+          var danceability = row.insertCell(1);
+          var duration_ms = row.insertCell(2);
+          var instrumentalness = row.insertCell(3);
+          var acousticness = row.insertCell(4);
+          var popularity = row.insertCell(5);
+          var speechiness = row.insertCell(6);
+          var tempo = row.insertCell(7);
+          var valence = row.insertCell(8);
+          var year = row.insertCell(9);
+
+          acousticness.innerHTML = response.data[index - 1].Acousticness;
+          danceability.innerHTML = response.data[index - 1].Danceability;
+          duration_ms.innerHTML = response.data[index - 1].Duration_ms
+          instrumentalness.innerHTML = response.data[index - 1].Instrumentalness
+          name.innerHTML = response.data[index - 1].Name
+          popularity.innerHTML = response.data[index - 1].Popularity
+          speechiness.innerHTML = response.data[index - 1].Speechiness
+          tempo.innerHTML = response.data[index - 1].Tempo
+          valence.innerHTML = response.data[index - 1].Valence
+          year.innerHTML = response.data[index - 1].Year
+
+          table.insertRow(row)
+        }
+
+        var cell1 = initRow.insertCell(0)
+        var cell2 = initRow.insertCell(1)
+        var cell3 = initRow.insertCell(2)
+        var cell4 = initRow.insertCell(3)
+        var cell5 = initRow.insertCell(4)
+        var cell6 = initRow.insertCell(5)
+        var cell7 = initRow.insertCell(6)
+        var cell8 = initRow.insertCell(7)
+        var cell9 = initRow.insertCell(8)
+        var cell10 = initRow.insertCell(9)
+
+        cell1.innerHTML = " Acousticness "
+        cell2.innerHTML = " Danceability "
+        cell3.innerHTML = " Duration_ms "
+        cell4.innerHTML = " Instrumentalness "
+        cell5.innerHTML = " Name "
+        cell6.innerHTML = " Popularity "
+        cell7.innerHTML = " Speechiness "
+        cell8.innerHTML = " Tempo "
+        cell9.innerHTML = " Valence "
+        cell10.innerHTML = " Year "
+        table.insertRow(initRow)
+
+      // console.log(JSON.stringify(response.data));
     }).catch((err) => {
       alert("Reached here error")
       console.log(err)
@@ -198,8 +258,8 @@ const Song = () => {
           </form> */}
 
           <a>Year: </a>
-          <RangeStepInput min={1850} max={2021}
-            step={1}
+          <RangeStepInput min={1920} max={2021}
+            step={10}
             onChange={e => {
               setYear(e.target.value);
             }}
@@ -230,8 +290,8 @@ const Song = () => {
           />
 
           <a>Duration (ms): </a>
-          <RangeStepInput min={0} max={5}
-            step={0.1}
+          <RangeStepInput min={0} max={6000000}
+            step={100000}
             onChange={e => {
               setDuration(e.target.value);
             }}
@@ -239,15 +299,15 @@ const Song = () => {
 
           <a>Speechiness: </a>
           <RangeStepInput min={0} max={1}
-            step={0.1}
+            step={0.05}
             onChange={e => {
               setSpeechiness(e.target.value);
             }}
           />
 
           <a>Tempo: </a>
-          <RangeStepInput min={0} max={1}
-            step={0.1}
+          <RangeStepInput min={0} max={245}
+            step={10}
             onChange={e => {
               setTempo(e.target.value);
             }}
@@ -262,9 +322,9 @@ const Song = () => {
           />
 
           <button onClick={selectSong}> Search</button>
-          <table></table>
+          <table id="songTableData" class="tableClass"></table>
 
-          <p id="searchResult"></p>
+          {/* <p id="searchResult"></p> */}
 
           <br></br>
           <br></br>

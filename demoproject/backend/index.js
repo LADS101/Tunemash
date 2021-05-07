@@ -93,14 +93,9 @@ app.post("/api/insertReview", (require, response) => {
 });
 
 
-
-
-
 app.get("/api/getReview", (require, response) => {
 
-    //const songName = require.params.SongName
     const songName = require.query.SongName
-    
     // const tempo = 155;
     // const danceability = 0.5;
     console.log(songName + " something")
@@ -112,10 +107,8 @@ app.get("/api/getReview", (require, response) => {
             console.log(err);
 
         }
-        //console.log(result);
-
+        console.log(result);
         response.send(result);
-        console.log("pls work");
     })
 
 });
@@ -126,12 +119,12 @@ app.get("/api/getReview", (require, response) => {
 app.get("/api/get", (require, response) => {
     const Year = parseInt(require.query.Year);
     const Danceability = parseFloat(require.query.Danceability);
-    const Acousticness = require.query.Acousticness;
+    const Acousticness = parseFloat(require.query.Acousticness);
     const Duration_ms = require.query.Duration_ms;
-    const Instrumentalness = require.query.Instrumentalness;
-    const Tempo = require.query.Tempo;
-    const Valence = require.query.Valence;
-    const Speechiness = require.query.Speechiness;
+    const Instrumentalness = parseFloat(require.query.Instrumentalness);
+    const Tempo = parseInt(require.query.Tempo);
+    const Valence = parseFloat(require.query.Valence);
+    const Speechiness = parseFloat(require.query.Speechiness);
 
     const lYear = Year - 15;
     const hYear = Year + 15;
@@ -142,8 +135,8 @@ app.get("/api/get", (require, response) => {
     const lAcousticness = Acousticness - 0.2;
     const hAcousticness = Acousticness + 0.2;
 
-    const lDuration_ms = Duration_ms - 15000;
-    const hDuration_ms = Duration_ms + 15000;
+    const lDuration_ms = Duration_ms - 120000;
+    const hDuration_ms = Duration_ms + 120000;
 
     const lInstrumentalness = Instrumentalness - 0.2;
     const hInstrumentalness = Instrumentalness + 0.2;
@@ -154,8 +147,8 @@ app.get("/api/get", (require, response) => {
     const lValence = Valence - 0.2;
     const hValence = Valence + 0.2;
 
-    const lSpeechiness = Speechiness - 0.2;
-    const hSpeechiness = Speechiness + 0.2;
+    const lSpeechiness = Speechiness - 0.35;
+    const hSpeechiness = Speechiness + 0.35;
 
 
 
@@ -166,7 +159,7 @@ app.get("/api/get", (require, response) => {
                                             "AND `Instrumentalness` BETWEEN ? AND ? " + 
                                             "AND `Tempo` BETWEEN ? AND ? " + 
                                             "AND `Valence` BETWEEN ? AND ? " + 
-                                            "AND `Speechiness` BETWEEN ? AND ? LIMIT 5";
+                                            "AND `Speechiness` BETWEEN ? AND ? LIMIT 10";
     db.query(sqlSelect, [lYear, hYear, 
                         lDanceability, hDanceability,
                         lAcousticness, hAcousticness,
@@ -194,7 +187,7 @@ app.get("/api/getByName", (require, response) => {
 
     db.query(sqlSelect, [name], (err, result) => {
         if (err) 
-        console.log(err);
+            console.log(err);
 
         console.log("Reached after error");
         console.log(JSON.stringify(result));
