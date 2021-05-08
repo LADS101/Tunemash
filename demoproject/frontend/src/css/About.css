@@ -4,14 +4,18 @@
 }
 
 body {
-    background: rgba(0, 0, 0, 1);
+    height: 100%;
+    /* background: linear-gradient(to bottom, #000000 0%, #666699 100%); */
+    background-repeat: no-repeat;
     margin: 0;
     color: whitesmoke;
     font-size: x-big;
-
+    /* height: 75em; */
     font-family: 'Garamond' , 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+  .lead{
+    margin: 5% -70%;
   }
-  
   * {
     box-sizing: border-box;
   }
