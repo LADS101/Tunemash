@@ -1,0 +1,27 @@
+body {
+    /* background: rgba(0, 0, 0, 1);
+    margin: 0;
+    color: whitesmoke;
+    font-size: x-big;
+
+    font-family: 'Garamond' , 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+  }
+
+#lem{
+  display: grid;
+  width: 50%;
+  position: relative;
+  -webkit-box-align: center;
+  margin: 0% 0% 0% 25%;
+}
+
+.songui{
+  width: 50%;
+  position: relative;
+  -webkit-box-align: center;
+  padding: 0.5% 0% 1% 0%;
+}
+/*   
+  * {
+    box-sizing: border-box;
+  } */
