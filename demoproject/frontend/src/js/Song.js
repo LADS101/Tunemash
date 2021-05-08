@@ -6,25 +6,16 @@ import "../css/Song.css"
 import { json } from 'body-parser';
 
 const Song = () => {
-  const [movieName, setMovieName] = useState('');
-  const [Review, setReview] = useState('');
-  const [movieReviewList, setMovieReviewList] = useState([]);
-  const [newReview, setNewReview] = useState("");
-
-  const [SongName, setSongName] = useState("");
-  const [SongID, setSongID] = useState("");
   const [Year, setYear] = useState(1970);
   const [Acousticness, setAcousticness] = useState(0.5);
   const [Duration, setDuration] = useState(300000);
   const [Danceability, setDanceability] = useState(0.5);
   const [Instrumentalness, setInstrumentalness] = useState(0.5);
-  const [Popularity, setPopularity] = useState(5);
   const [Speechiness, setSpeechiness] = useState(0.5);
   const [Tempo, setTempo] = useState(122);
   const [Valence, setValence] = useState(0.5);
 
   const selectSong = () => {
-    // alert("Running knn")
     Axios.get('http://localhost:3002/api/get', {
       params: {
       Year: Year,
@@ -37,9 +28,6 @@ const Song = () => {
       Valence: Valence
       }
     }).then((response) => {
-      // document.getElementById("searchResult").innerHTML = JSON.stringify(response.data)
-      // alert(JSON.stringify(response.data))
-
       var table = document.getElementById("songTableData");
         
         while (table.hasChildNodes()) {
@@ -53,24 +41,24 @@ const Song = () => {
 
           var name = row.insertCell(0);
           var danceability = row.insertCell(1);
-          var duration_ms = row.insertCell(2);
+          var acousticness = row.insertCell(2);
           var instrumentalness = row.insertCell(3);
-          var acousticness = row.insertCell(4);
-          var popularity = row.insertCell(5);
-          var speechiness = row.insertCell(6);
-          var tempo = row.insertCell(7);
-          var valence = row.insertCell(8);
+          var popularity = row.insertCell(4);
+          var speechiness = row.insertCell(5);
+          var tempo = row.insertCell(6);
+          var valence = row.insertCell(7);
+          var duration_ms = row.insertCell(8);
           var year = row.insertCell(9);
 
-          acousticness.innerHTML = response.data[index - 1].Acousticness;
-          danceability.innerHTML = response.data[index - 1].Danceability;
-          duration_ms.innerHTML = response.data[index - 1].Duration_ms
-          instrumentalness.innerHTML = response.data[index - 1].Instrumentalness
           name.innerHTML = response.data[index - 1].Name
+          danceability.innerHTML = response.data[index - 1].Danceability;
+          acousticness.innerHTML = response.data[index - 1].Acousticness;
+          instrumentalness.innerHTML = response.data[index - 1].Instrumentalness
           popularity.innerHTML = response.data[index - 1].Popularity
           speechiness.innerHTML = response.data[index - 1].Speechiness
           tempo.innerHTML = response.data[index - 1].Tempo
           valence.innerHTML = response.data[index - 1].Valence
+          duration_ms.innerHTML = response.data[index - 1].Duration_ms
           year.innerHTML = response.data[index - 1].Year
 
           table.insertRow(row)
@@ -87,19 +75,17 @@ const Song = () => {
         var cell9 = initRow.insertCell(8)
         var cell10 = initRow.insertCell(9)
 
-        cell1.innerHTML = " Acousticness "
+        cell1.innerHTML = " Name "
         cell2.innerHTML = " Danceability "
-        cell3.innerHTML = " Duration_ms "
+        cell3.innerHTML = " Acousticness "
         cell4.innerHTML = " Instrumentalness "
-        cell5.innerHTML = " Name "
-        cell6.innerHTML = " Popularity "
-        cell7.innerHTML = " Speechiness "
-        cell8.innerHTML = " Tempo "
-        cell9.innerHTML = " Valence "
+        cell5.innerHTML = " Popularity "
+        cell6.innerHTML = " Speechiness "
+        cell7.innerHTML = " Tempo "
+        cell8.innerHTML = " Valence "
+        cell9.innerHTML = " Duration_ms "
         cell10.innerHTML = " Year "
         table.insertRow(initRow)
-
-      // console.log(JSON.stringify(response.data));
     }).catch((err) => {
       alert("Reached here error")
       console.log(err)
@@ -107,16 +93,9 @@ const Song = () => {
   }
 
   const complexSong = () => {
-    // alert("Danceability: " + Danceability)
-    // alert("Tempo: "+ Tempo)
-
-    // alert(document.getElementById("SearchSongName").value)
     Axios.get('http://localhost:3002/api/complex', {
 
     }).then((response) => {
-      // alert(response.data.toString());
-      // alert("Reached here")
-      // console.log("Back in app.js")
       document.getElementById("complexResult").innerHTML = JSON.stringify(response.data)
 
       console.log(JSON.stringify(response.data));
@@ -145,6 +124,22 @@ const Song = () => {
       console.log(response.data);
     }).catch((err) => {
       alert("Reached here error")
+      console.log(err)
+    })
+  }
+
+  const updateSong = () => {
+    const Songname = document.getElementById("updateSongName").value
+    const newSongName = document.getElementById("newupdateSongName").value
+
+    alert(Songname);
+
+    Axios.post(`http://localhost:3002/api/update`, {
+      SongName: Songname,
+      newSongName: newSongName
+    }).then((response) => {
+      alert("Song updated!")
+    }).catch((err) => {
       console.log(err)
     })
   }
@@ -184,12 +179,6 @@ const Song = () => {
         }
         document.getElementById("specialResult").innerHTML  += "<br>" + s+ "</b>";
       }
-
-      //document.getElementById("specialResult").innerHTML =  "</b>" +  response.data
-      
-      //JSON.stringify(response.data)
-      // for (i = 0; i < response.length; i++)
-      //   console.log(JSON.stringify(response[i]));
 
     }).catch((err) => {
       alert("Reached here error")
@@ -244,12 +233,6 @@ const Song = () => {
 
           <b><h3>Search/Read Song Details</h3></b>
 
-          {/* <form>
-            <label for="SongName">Song Name:</label>
-            <input type="text" id="SearchSongName" name="SearchSongName" onChange={e => {
-              setSongName(e.target.value);
-            }}></input><br></br>
-          </form> */}
         <div id="lem">
           <a>Year: </a>
           <RangeStepInput min={1920} max={2021}
@@ -319,8 +302,6 @@ const Song = () => {
           <button onClick={selectSong}> Search</button>
           <table id="songTableData" class="tableClass"></table>
 
-          {/* <p id="searchResult"></p> */}
-
           <br></br>
           <br></br>
           <br></br>
@@ -328,42 +309,21 @@ const Song = () => {
 
         </div>
 
-
-
-{/* 
         <div label="Update">
 
-          <b><h3>Update Songs by Entering Song Name and updated Details</h3></b>
+          <b><h3>Update Songs by Entering Song Name and updated Name</h3></b>
+          <form style={{margin: "1%"}}>
+            <label for="updateSongName">Enter Song name:</label>
+            <input type="text" id="updateSongName" name="updateSongName" class="songui"></input><br></br>
 
-
-          <form>
-            <label for="SongName">Enter Song name:</label>
-            <input type="text" id="UpdateSongName" name="UpdateSongName"></input><br></br>
-            <label for="Year">Update year:</label>
-            <input type="text" id="UpdateYear" name="UpdateYear"></input><br></br>
-            <label for="SongID">Update ID:</label>
-            <input type="text" id="SongID" name="UpdateSongID"></input><br></br>
-            <label for="Acousticness">Update acousticness:</label>
-            <input type="text" id="UpdateAcousticness" name="UpdateAcousticness"></input><br></br>
-            <label for="Danceability">Update danceability:</label>
-            <input type="text" id="UpdateDanceability" name="UpdateDanceability"></input><br></br>
-            <label for="Instrumentalness">Update instrumentalness:</label>
-            <input type="text" id="UpdateInstrumentalness" name="UpdateInstrumentalness"></input><br></br>
-            <label for="Popularity">Update popularity:</label>
-            <input type="text" id="Popularity" name="Popularity"></input><br></br>
-            <label for="Speechiness">Update speechiness:</label>
-            <input type="text" id="UpdateSpeechiness" name="UpdateSpeechiness"></input><br></br>
-            <label for="Tempo">Update Tempo:</label>
-            <input type="text" id="UpdateTempo" name="UpdateTempo"></input><br></br>
-            <label for="Valence">Update valence:</label>
-            <input type="text" id="UpdateValence" name="UpdateValence"></input><br></br>
+            <label for="newupdateSongName">Enter updated song name:</label>
+            <input type="text" id="newupdateSongName" name="newupdateSongName" class="songui"></input><br></br>
           </form>
 
           <button onClick={updateSong}> Update</button>
-
           <br></br>
 
-        </div> */}
+        </div>
 
         <div label="Delete">
 
@@ -376,16 +336,12 @@ const Song = () => {
 
           <button onClick={deleteSong}> Delete</button>
 
-
         </div>
-
-
 
           <div label="Special">
           <b><h3>Special Hits</h3></b>
             <button onClick={selectSpecialList}> Special</button>
           <p id="specialResult"></p>
-
           </div>
 
         </div>

@@ -71,8 +71,6 @@ app.get("/api/getAuth", (require, response) => {
 
 });
 
-
-
 app.post("/api/insertReview", (require, response) => {
 
     const songName = require.body.Song;
@@ -93,7 +91,6 @@ app.post("/api/insertReview", (require, response) => {
         })
 });
 
-
 app.get("/api/getReview", (require, response) => {
 
     const songName = require.query.SongName
@@ -113,9 +110,6 @@ app.get("/api/getReview", (require, response) => {
     })
 
 });
-
-
-
 
 app.get("/api/get", (require, response) => {
     const Year = parseInt(require.query.Year);
@@ -177,6 +171,17 @@ app.get("/api/get", (require, response) => {
 
 });
 
+app.post("/api/update/", (require, response) => {
+    const SongName = require.body.SongName;
+    const newSongName = require.body.newSongName;
+
+    const sqlUpdate = "UPDATE `Song` SET `Name` = ? WHERE `Name` = ?";
+    db.query(sqlUpdate, [newSongName, SongName], (err, result) => {
+        if (err)
+            console.log(err);
+    })
+});
+
 app.get("/api/getByName", (require, response) => {
     const name = (require.query.SongName).toString();
 
@@ -190,9 +195,7 @@ app.get("/api/getByName", (require, response) => {
         if (err) 
             console.log(err);
 
-        console.log("Reached after error");
         console.log(JSON.stringify(result));
-
         response.send(result);
     })
 

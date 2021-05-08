@@ -28,24 +28,24 @@ function Home() {
 
           var name = row.insertCell(0);
           var danceability = row.insertCell(1);
-          var duration_ms = row.insertCell(2);
+          var acousticness = row.insertCell(2);
           var instrumentalness = row.insertCell(3);
-          var acousticness = row.insertCell(4);
-          var popularity = row.insertCell(5);
-          var speechiness = row.insertCell(6);
-          var tempo = row.insertCell(7);
-          var valence = row.insertCell(8);
+          var popularity = row.insertCell(4);
+          var speechiness = row.insertCell(5);
+          var tempo = row.insertCell(6);
+          var valence = row.insertCell(7);
+          var duration_ms = row.insertCell(8);
           var year = row.insertCell(9);
 
-          acousticness.innerHTML = response.data[index - 1].Acousticness;
-          danceability.innerHTML = response.data[index - 1].Danceability;
-          duration_ms.innerHTML = response.data[index - 1].Duration_ms
-          instrumentalness.innerHTML = response.data[index - 1].Instrumentalness
           name.innerHTML = response.data[index - 1].Name
+          danceability.innerHTML = response.data[index - 1].Danceability;
+          acousticness.innerHTML = response.data[index - 1].Acousticness;
+          instrumentalness.innerHTML = response.data[index - 1].Instrumentalness
           popularity.innerHTML = response.data[index - 1].Popularity
           speechiness.innerHTML = response.data[index - 1].Speechiness
           tempo.innerHTML = response.data[index - 1].Tempo
           valence.innerHTML = response.data[index - 1].Valence
+          duration_ms.innerHTML = response.data[index - 1].Duration_ms
           year.innerHTML = response.data[index - 1].Year
 
           table.insertRow(row)
@@ -62,15 +62,15 @@ function Home() {
         var cell9 = initRow.insertCell(8)
         var cell10 = initRow.insertCell(9)
 
-        cell1.innerHTML = " Acousticness "
+        cell1.innerHTML = " Name "
         cell2.innerHTML = " Danceability "
-        cell3.innerHTML = " Duration_ms "
+        cell3.innerHTML = " Acousticness "
         cell4.innerHTML = " Instrumentalness "
-        cell5.innerHTML = " Name "
-        cell6.innerHTML = " Popularity "
-        cell7.innerHTML = " Speechiness "
-        cell8.innerHTML = " Tempo "
-        cell9.innerHTML = " Valence "
+        cell5.innerHTML = " Popularity "
+        cell6.innerHTML = " Speechiness "
+        cell7.innerHTML = " Tempo "
+        cell8.innerHTML = " Valence "
+        cell9.innerHTML = " Duration_ms "
         cell10.innerHTML = " Year "
         table.insertRow(initRow)
 
@@ -193,7 +193,7 @@ function Home() {
     <div class="container grid-3 center">
       <div>
         
-      <table id="tableData" class="tableClass">
+      <table id="tableData" class="tableClass" style={{margin: "0% 7%"}}>
             </table>
       </div>
       
