@@ -1,7 +1,4 @@
 import './App.css';
-import Tabs from "./components/Tabs";
-// import React, { useState, useEffect } from "react";
-import Dashboard from "./js/Dashboard"
 
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
@@ -14,51 +11,7 @@ import Login from './components/Login'
 import Logout from './components/Logout'
 
 function App() {
-
-  // const loggedIn = False;
-
   return (
-    
-
-      
-    // <Router>
-    //   <div className="App">
-    //       <Switch>
-    //         <Route exact path="/">
-    //           <Login />
-    //           <Logout />
-    //         </Route>
-
-    //         <Route exact path="/dashboard">
-    //           <Dashboard />
-    //         </Route>
-
-    //         {/* <Navbar />
-
-    //         <Switch>
-
-    //         <Route exact path="/Home">
-    //           <Home />
-    //         </Route>
-
-    //         <Route path="/Song">
-    //           <Song />
-    //         </Route>
-
-    //         <Route path="/About">
-    //           <About />
-    //         </Route>
-
-    //         <Route path="/Contact">
-    //           <Contact />
-    //         </Route>
-    //       </Switch> */}
-    //       </Switch>
-    //     {/* </Router> */}
-          
-    //   </div>
-    // </Router>
-
     <Router>
       <div className="App">
       

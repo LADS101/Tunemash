@@ -31,20 +31,6 @@ function Contact() {
         </div>
         <script src="https://smtpjs.com/v3/smtp.js"></script>
         <script type="text/javascript">
-          {/* function sendEmail() {
-            Email.send({
-              Host: "smtp.gmail.com",
-              Username: "sender@email_address.com",
-              Password: "Enter your password",
-              To: 'receiver@email_address.com',
-              From: "sender@email_address.com",
-              Subject: "Sending Email using javascript",
-              Body: "Well that was easy!!",
-            })
-              .then(function (message) {
-                alert("mail sent successfully")
-              })
-          } */}
         </script>
 
         <div class="column">
@@ -53,17 +39,14 @@ function Contact() {
           <label>
           <input type="checkbox" name="newsletter" value="yes" /> Join our mailing list?
           </label>
-          {/* <a href="mailto:aniruddh.g.pai@gmail.com?subject = Feedback&body = Message">
-            Send Feedback
-          </a> */}
-          <address>
+          {/* <address>
             Written by <a href="mailto:aniruddh.g.pai@gmail.com">Jon Doe</a> <br />
               Visit us at:<br />
                 Example.com<br />
                   Box 564, Disneyland<br />
                     USA
-          </address>
-          {/* <input type="submit" href="mailto: aniruddh.g.pai@gmail.com" value="Send Message"/> */}
+          </address> */}
+          <input type="submit" href="mailto: aniruddh.g.pai@gmail.com" value="Send Message"/>
         </div>
       </form>
     </div>

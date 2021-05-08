@@ -9,7 +9,6 @@ const clientId =
   '707788443358-u05p46nssla3l8tmn58tpo9r5sommgks.apps.googleusercontent.com';
 const client = new OAuth2Client(clientId)
 
-
 const googleAuth = async (token) => {
     const ticket = await client.verifyIdToken({
         idToken: token,
@@ -26,7 +25,6 @@ const googleAuth = async (token) => {
 
 module.exports = googleAuth;
 
-
 var db = mysql.createConnection({
     host: '35.239.133.63',
     user: 'root',
@@ -34,50 +32,25 @@ var db = mysql.createConnection({
     database: 'tunemash',
 })
 
-// db.connect(function(err) {
-//     if (err) throw err;
-//     var sql = "INSERT INTO `movie_reviews` (`id`,`movieName`, `movieReview`) VALUES (5,'inception', 'good movie');";
-//     db.query(sql, function (err, result) {
-//       if (err) throw err;
-//       console.log(result.affectedRows + " record(s) updated");
-//     });
-//   });
-
-// app.get('/', (require, response) => {
-//     const sqlInsert = "INSERT INTO `movie_reviews` (`movieName`, `movieReview`) VALUES ('Spider2', 'good movie');";
-//     db.query(sqlInsert, (err, result) => {
-//         response.send("Hello world!!!");
-//     })
-// })
-
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/api/getAuth", (require, response) => {
-    // alert("Reached the getAuth")
-    // console.log(require)
     tokenID = require.headers.authorization
     console.log(tokenID)
-    // googleAuth(tokenID)
-
-
 
     response.send(googleAuth(tokenID))
 
     console.log(googleAuth(tokenID))
-
-
 });
 
 app.post("/api/insertReview", (require, response) => {
-
     const songName = require.body.Song;
 
     const songReview = require.body.Review
     const songRating = parseInt(require.body.Ratings)
     console.log(songName)
-
 
     const sqlInsert = "INSERT INTO Reviews (`Song`, `Review`, `Ratings`)" +
         " VALUES (?,?,?)";
@@ -91,10 +64,8 @@ app.post("/api/insertReview", (require, response) => {
 });
 
 app.get("/api/getReview", (require, response) => {
-
     const songName = require.query.SongName
-    // const tempo = 155;
-    // const danceability = 0.5;
+
     console.log(songName + " something")
 
     const sqlSelect = "SELECT * FROM `Reviews` Where `Song` = ?" 
@@ -107,7 +78,6 @@ app.get("/api/getReview", (require, response) => {
         console.log(result);
         response.send(result);
     })
-
 });
 
 app.get("/api/get", (require, response) => {
@@ -144,8 +114,6 @@ app.get("/api/get", (require, response) => {
     const lSpeechiness = Speechiness - 0.35;
     const hSpeechiness = Speechiness + 0.35;
 
-
-
     const sqlSelect = "SELECT * FROM `Song` WHERE `Year` BETWEEN ? AND ? " +
                                             "AND `Danceability` BETWEEN ? AND ? " + 
                                             "AND `Acousticness` BETWEEN ? AND ? " +
@@ -167,7 +135,6 @@ app.get("/api/get", (require, response) => {
 
         response.send(result);
     })
-
 });
 
 app.post("/api/update/", (require, response) => {
@@ -197,9 +164,7 @@ app.get("/api/getByName", (require, response) => {
         console.log(JSON.stringify(result));
         response.send(result);
     })
-
 });
-
 
 app.get("/api/getSpecial", (require, response) => {
     console.log("JI")
@@ -208,15 +173,10 @@ app.get("/api/getSpecial", (require, response) => {
         if (error) {
             return console.error(error.message);
         }
-        // var i;
-        // for (i = 0; i < results[0].length; i++)
-        //     console.log(JSON.stringify(results[0][i]));
         
         response.send(results[0])
     });
 });
-
-
 
 app.post("/api/insert", (require, response) => {
     const SongName = require.body.SongName;

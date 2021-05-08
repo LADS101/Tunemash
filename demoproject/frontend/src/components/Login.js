@@ -17,10 +17,7 @@ function Login() {
     );
 
     refreshTokenSetup(res);
-    alert("Got here")
     const tokenToVerify = (res.getAuthResponse().id_token).toString();
-    alert("Got here as well")
-    alert(tokenToVerify)
     Axios.get("http://localhost:3002/api/getAuth",  {
         headers: {
             'Authorization': tokenToVerify

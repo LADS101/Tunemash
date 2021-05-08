@@ -1,100 +1,88 @@
-
 import '../css/Home.css';
 import Axios from 'axios';
 
 function Home() {
  
   const selectSongByName = () => {
-    // alert("Getting here");
-    // alert(document.getElementById("search").value)
     Axios.get('http://localhost:3002/api/getByName', {
       params: {
       SongName: document.getElementById("search").value
       }
     }).then((response) => {
-      // alert("getting here");
-      // alert(JSON.stringify(response));
-
-        var table = document.getElementById("tableData");
+      var table = document.getElementById("tableData");
         
-        while (table.hasChildNodes()) {
-          table.removeChild(table.firstChild);
-        }
+      while (table.hasChildNodes()) {
+        table.removeChild(table.firstChild);
+      }
     
-        var initRow = table.insertRow(0);
+      var initRow = table.insertRow(0);
 
-        for(let index = 1; index < (response.data).length + 1; index++) {
-          var row = table.insertRow(index);
+      for(let index = 1; index < (response.data).length + 1; index++) {
+        var row = table.insertRow(index);
 
-          var name = row.insertCell(0);
-          var danceability = row.insertCell(1);
-          var acousticness = row.insertCell(2);
-          var instrumentalness = row.insertCell(3);
-          var popularity = row.insertCell(4);
-          var speechiness = row.insertCell(5);
-          var tempo = row.insertCell(6);
-          var valence = row.insertCell(7);
-          var duration_ms = row.insertCell(8);
-          var year = row.insertCell(9);
+        var name = row.insertCell(0);
+        var danceability = row.insertCell(1);
+        var acousticness = row.insertCell(2);
+        var instrumentalness = row.insertCell(3);
+        var popularity = row.insertCell(4);
+        var speechiness = row.insertCell(5);
+        var tempo = row.insertCell(6);
+        var valence = row.insertCell(7);
+        var duration_ms = row.insertCell(8);
+        var year = row.insertCell(9);
 
-          name.innerHTML = response.data[index - 1].Name
-          danceability.innerHTML = response.data[index - 1].Danceability;
-          acousticness.innerHTML = response.data[index - 1].Acousticness;
-          instrumentalness.innerHTML = response.data[index - 1].Instrumentalness
-          popularity.innerHTML = response.data[index - 1].Popularity
-          speechiness.innerHTML = response.data[index - 1].Speechiness
-          tempo.innerHTML = response.data[index - 1].Tempo
-          valence.innerHTML = response.data[index - 1].Valence
-          duration_ms.innerHTML = response.data[index - 1].Duration_ms
-          year.innerHTML = response.data[index - 1].Year
+        name.innerHTML = response.data[index - 1].Name
+        danceability.innerHTML = response.data[index - 1].Danceability;
+        acousticness.innerHTML = response.data[index - 1].Acousticness;
+        instrumentalness.innerHTML = response.data[index - 1].Instrumentalness
+        popularity.innerHTML = response.data[index - 1].Popularity
+        speechiness.innerHTML = response.data[index - 1].Speechiness
+        tempo.innerHTML = response.data[index - 1].Tempo
+        valence.innerHTML = response.data[index - 1].Valence
+        duration_ms.innerHTML = response.data[index - 1].Duration_ms
+        year.innerHTML = response.data[index - 1].Year
 
-          table.insertRow(row)
-        }
+        table.insertRow(row)
+      }
 
-        var cell1 = initRow.insertCell(0)
-        var cell2 = initRow.insertCell(1)
-        var cell3 = initRow.insertCell(2)
-        var cell4 = initRow.insertCell(3)
-        var cell5 = initRow.insertCell(4)
-        var cell6 = initRow.insertCell(5)
-        var cell7 = initRow.insertCell(6)
-        var cell8 = initRow.insertCell(7)
-        var cell9 = initRow.insertCell(8)
-        var cell10 = initRow.insertCell(9)
+      var cell1 = initRow.insertCell(0)
+      var cell2 = initRow.insertCell(1)
+      var cell3 = initRow.insertCell(2)
+      var cell4 = initRow.insertCell(3)
+      var cell5 = initRow.insertCell(4)
+      var cell6 = initRow.insertCell(5)
+      var cell7 = initRow.insertCell(6)
+      var cell8 = initRow.insertCell(7)
+      var cell9 = initRow.insertCell(8)
+      var cell10 = initRow.insertCell(9)
 
-        cell1.innerHTML = " Name "
-        cell2.innerHTML = " Danceability "
-        cell3.innerHTML = " Acousticness "
-        cell4.innerHTML = " Instrumentalness "
-        cell5.innerHTML = " Popularity "
-        cell6.innerHTML = " Speechiness "
-        cell7.innerHTML = " Tempo "
-        cell8.innerHTML = " Valence "
-        cell9.innerHTML = " Duration_ms "
-        cell10.innerHTML = " Year "
-        table.insertRow(initRow)
+      cell1.innerHTML = " Name "
+      cell2.innerHTML = " Danceability "
+      cell3.innerHTML = " Acousticness "
+      cell4.innerHTML = " Instrumentalness "
+      cell5.innerHTML = " Popularity "
+      cell6.innerHTML = " Speechiness "
+      cell7.innerHTML = " Tempo "
+      cell8.innerHTML = " Valence "
+      cell9.innerHTML = " Duration_ms "
+      cell10.innerHTML = " Year "
+      table.insertRow(initRow)
 
     }).catch((err) => {
-      alert("Reached here error")
       alert(err)
       console.log(err)
     })
   }
 
-
-
   const submitReview = () => {
     Axios.post('http://localhost:3002/api/insertReview', {
-   
-        Song: document.getElementById("enterSongName").value,
-        Review : document.getElementById("enterSongReview").value,
-        Ratings: document.getElementById("enterSongRating").value
+      Song: document.getElementById("enterSongName").value,
+      Review : document.getElementById("enterSongReview").value,
+      Ratings: document.getElementById("enterSongRating").value
     
     }).then((response) => {
-      // alert(response.data.toString());
-      // alert("Reached here")
-      // alert(response.data)
       console.log(response.data);
+
     }).catch((err) => {
       alert("Reached here error")
       console.log(err)
@@ -104,43 +92,44 @@ function Home() {
 
 
   const getReview = () => {
-    console.log("lmao")
     console.log(document.getElementById("getSongReview").value)
+
     Axios.get('http://localhost:3002/api/getReview', {
       params: {
         SongName: document.getElementById("getSongReview").value
-        }
+      }
     }).then((response) => {
-        var table = document.getElementById("songReviewTable");
+      var table = document.getElementById("songReviewTable");
         
-        while (table.hasChildNodes()) {
-          table.removeChild(table.firstChild);
-        }
+      while (table.hasChildNodes()) {
+        table.removeChild(table.firstChild);
+      }
     
-        var initRow = table.insertRow(0);
+      var initRow = table.insertRow(0);
 
-        for(let index = 1; index < (response.data).length + 1; index++) {
-          var row = table.insertRow(index);
+      for(let index = 1; index < (response.data).length + 1; index++) {
+        var row = table.insertRow(index);
 
-          var name = row.insertCell(0);
-          var ratings = row.insertCell(1);
-          var review = row.insertCell(2);
+        var name = row.insertCell(0);
+        var ratings = row.insertCell(1);
+        var review = row.insertCell(2);
 
-          name.innerHTML = response.data[index - 1].Song;
-          ratings.innerHTML = response.data[index - 1].Ratings;
-          review.innerHTML = response.data[index - 1].Review;
+        name.innerHTML = response.data[index - 1].Song;
+        ratings.innerHTML = response.data[index - 1].Ratings;
+        review.innerHTML = response.data[index - 1].Review;
 
-          table.insertRow(row)
-        }
+        table.insertRow(row)
+      }
 
-        var cell1 = initRow.insertCell(0)
-        var cell2 = initRow.insertCell(1)
-        var cell3 = initRow.insertCell(2)
+      var cell1 = initRow.insertCell(0)
+      var cell2 = initRow.insertCell(1)
+      var cell3 = initRow.insertCell(2)
 
-        cell1.innerHTML = " Song "
-        cell2.innerHTML = " Ratings "
-        cell3.innerHTML = " Review "
-        table.insertRow(initRow)
+      cell1.innerHTML = " Song "
+      cell2.innerHTML = " Ratings "
+      cell3.innerHTML = " Review "
+      table.insertRow(initRow)
+
     }).catch((err) => {
       alert("Reached here error")
       console.log("err")
@@ -170,40 +159,28 @@ function Home() {
           <div id="searchBar">
             <form id="search Form" class="example">
               <input type="text" placeholder="Search for a song by name" id="search" name="search" style={{width:"300px", margin:"0% 0%"}}></input>
-              
             </form>
 
-            {/* NOTE: This button below was actually inside the form, but it didn't work  */}
-
             <button type="submit" onClick={selectSongByName}><i class="fa fa-search"></i></button>
-            
-            
           </div>
 
           <p id="songSearchResult">If you observe no change even after searching, then no song with the entered name exists in our database.</p>
-
-
-          
         </div>
 
-        
       </header>
 
-  <section class="services">
-    <div class="container grid-3 center">
-      <div>
-        
-      <table id="tableData" class="tableClass" style={{margin: "0% 7%"}}>
-            </table>
-      </div>
-      
-    </div>
-  </section>
+      <section class="services">
+        <div class="container grid-3 center">
+          <div>
+            <table id="tableData" class="tableClass" style={{margin: "0% 7%"}}></table>
+          </div>
+        </div>
+      </section>
 
-  <section class="about bg-light">
-    <div class="container">
-      <h2>Leave reviews for our tunes...</h2>
-      <div class="grid-2">
+      <section class="about bg-light">
+        <div class="container">
+          <h2>Leave reviews for our tunes...</h2>
+          <div class="grid-2">
           <div>
           <form id="search Form" class="example" style={{margin:"2%"}}>
             <h4>Write a review!</h4>  
@@ -223,7 +200,7 @@ function Home() {
           <table id="songReviewTable" style={{margin: "2% 31%"}}></table>
           <button type="submit" onClick={getReview} class="submitButton">Get Review for this song</button>
           </div>
-      <div>
+          <div>
         </div>
       </div>
     </div>

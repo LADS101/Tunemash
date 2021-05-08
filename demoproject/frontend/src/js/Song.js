@@ -30,75 +30,63 @@ const Song = () => {
     }).then((response) => {
       var table = document.getElementById("songTableData");
         
-        while (table.hasChildNodes()) {
-          table.removeChild(table.firstChild);
-        }
+      while (table.hasChildNodes()) {
+        table.removeChild(table.firstChild);
+      }
     
-        var initRow = table.insertRow(0);
+      var initRow = table.insertRow(0);
 
-        for(let index = 1; index < (response.data).length + 1; index++) {
-          var row = table.insertRow(index);
+      for(let index = 1; index < (response.data).length + 1; index++) {
+        var row = table.insertRow(index);
 
-          var name = row.insertCell(0);
-          var danceability = row.insertCell(1);
-          var acousticness = row.insertCell(2);
-          var instrumentalness = row.insertCell(3);
-          var popularity = row.insertCell(4);
-          var speechiness = row.insertCell(5);
-          var tempo = row.insertCell(6);
-          var valence = row.insertCell(7);
-          var duration_ms = row.insertCell(8);
-          var year = row.insertCell(9);
+        var name = row.insertCell(0);
+        var danceability = row.insertCell(1);
+        var acousticness = row.insertCell(2);
+        var instrumentalness = row.insertCell(3);
+        var popularity = row.insertCell(4);
+        var speechiness = row.insertCell(5);
+        var tempo = row.insertCell(6);
+        var valence = row.insertCell(7);
+        var duration_ms = row.insertCell(8);
+        var year = row.insertCell(9);
 
-          name.innerHTML = response.data[index - 1].Name
-          danceability.innerHTML = response.data[index - 1].Danceability;
-          acousticness.innerHTML = response.data[index - 1].Acousticness;
-          instrumentalness.innerHTML = response.data[index - 1].Instrumentalness
-          popularity.innerHTML = response.data[index - 1].Popularity
-          speechiness.innerHTML = response.data[index - 1].Speechiness
-          tempo.innerHTML = response.data[index - 1].Tempo
-          valence.innerHTML = response.data[index - 1].Valence
-          duration_ms.innerHTML = response.data[index - 1].Duration_ms
-          year.innerHTML = response.data[index - 1].Year
+        name.innerHTML = response.data[index - 1].Name
+        danceability.innerHTML = response.data[index - 1].Danceability;
+        acousticness.innerHTML = response.data[index - 1].Acousticness;
+        instrumentalness.innerHTML = response.data[index - 1].Instrumentalness
+        popularity.innerHTML = response.data[index - 1].Popularity
+        speechiness.innerHTML = response.data[index - 1].Speechiness
+        tempo.innerHTML = response.data[index - 1].Tempo
+        valence.innerHTML = response.data[index - 1].Valence
+        duration_ms.innerHTML = response.data[index - 1].Duration_ms
+        year.innerHTML = response.data[index - 1].Year
 
-          table.insertRow(row)
-        }
+        table.insertRow(row)
+      }
 
-        var cell1 = initRow.insertCell(0)
-        var cell2 = initRow.insertCell(1)
-        var cell3 = initRow.insertCell(2)
-        var cell4 = initRow.insertCell(3)
-        var cell5 = initRow.insertCell(4)
-        var cell6 = initRow.insertCell(5)
-        var cell7 = initRow.insertCell(6)
-        var cell8 = initRow.insertCell(7)
-        var cell9 = initRow.insertCell(8)
-        var cell10 = initRow.insertCell(9)
+      var cell1 = initRow.insertCell(0)
+      var cell2 = initRow.insertCell(1)
+      var cell3 = initRow.insertCell(2)
+      var cell4 = initRow.insertCell(3)
+      var cell5 = initRow.insertCell(4)
+      var cell6 = initRow.insertCell(5)
+      var cell7 = initRow.insertCell(6)
+      var cell8 = initRow.insertCell(7)
+      var cell9 = initRow.insertCell(8)
+      var cell10 = initRow.insertCell(9)
 
-        cell1.innerHTML = " Name "
-        cell2.innerHTML = " Danceability "
-        cell3.innerHTML = " Acousticness "
-        cell4.innerHTML = " Instrumentalness "
-        cell5.innerHTML = " Popularity "
-        cell6.innerHTML = " Speechiness "
-        cell7.innerHTML = " Tempo "
-        cell8.innerHTML = " Valence "
-        cell9.innerHTML = " Duration_ms "
-        cell10.innerHTML = " Year "
-        table.insertRow(initRow)
-    }).catch((err) => {
-      alert("Reached here error")
-      console.log(err)
-    })
-  }
+      cell1.innerHTML = " Name "
+      cell2.innerHTML = " Danceability "
+      cell3.innerHTML = " Acousticness "
+      cell4.innerHTML = " Instrumentalness "
+      cell5.innerHTML = " Popularity "
+      cell6.innerHTML = " Speechiness "
+      cell7.innerHTML = " Tempo "
+      cell8.innerHTML = " Valence "
+      cell9.innerHTML = " Duration_ms "
+      cell10.innerHTML = " Year "
+      table.insertRow(initRow)
 
-  const complexSong = () => {
-    Axios.get('http://localhost:3002/api/complex', {
-
-    }).then((response) => {
-      document.getElementById("complexResult").innerHTML = JSON.stringify(response.data)
-
-      console.log(JSON.stringify(response.data));
     }).catch((err) => {
       alert("Reached here error")
       console.log(err)
@@ -120,7 +108,6 @@ const Song = () => {
       Valence: parseFloat(document.getElementById("Valence").value)
     }).then((response) => {
       alert("Song Created!")
-      // alert(response.data)
       console.log(response.data);
     }).catch((err) => {
       alert("Reached here error")
@@ -132,13 +119,13 @@ const Song = () => {
     const Songname = document.getElementById("updateSongName").value
     const newSongName = document.getElementById("newupdateSongName").value
 
-    alert(Songname);
+    alert(Songname + " updated to " + newSongName);
 
     Axios.post(`http://localhost:3002/api/update`, {
       SongName: Songname,
       newSongName: newSongName
     }).then((response) => {
-      alert("Song updated!")
+      
     }).catch((err) => {
       console.log(err)
     })
@@ -147,15 +134,16 @@ const Song = () => {
   const deleteSong = () => {
     const Songname = document.getElementById("DeleteSongName").value
 
+    alert(Songname + " deleted from your directory");
+
     Axios.delete(`http://localhost:3002/api/delete/${Songname}`, {
 
     }).then((response) => {
-      alert("Song Deleted!")
+      
     }).catch((err) => {
       console.log(err)
     })
   }
-
 
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -233,70 +221,70 @@ const Song = () => {
 
           <b><h3>Search/Read Song Details</h3></b>
 
-        <div id="lem">
-          <a>Year: </a>
-          <RangeStepInput min={1920} max={2021}
-            step={10}
-            onChange={e => {
-              setYear(e.target.value);
-            }}
-          />
+          <div id="lem">
+            <a>Year: </a>
+            <RangeStepInput min={1920} max={2021}
+              step={10}
+              onChange={e => {
+                setYear(e.target.value);
+              }}
+            />
 
-          <a>Acousticness: </a>
-          <RangeStepInput min={0} max={1}
-            step={0.1}
-            onChange={e => {
-              setAcousticness(e.target.value);
-            }}
-          />
+            <a>Acousticness: </a>
+            <RangeStepInput min={0} max={1}
+              step={0.1}
+              onChange={e => {
+                setAcousticness(e.target.value);
+              }}
+            />
 
-          <a>Danceability: </a>
-          <RangeStepInput min={0} max={1}
-            step={0.1}
-            onChange={e => {
-              setDanceability(e.target.value);
-            }}
-          />
+            <a>Danceability: </a>
+            <RangeStepInput min={0} max={1}
+              step={0.1}
+              onChange={e => {
+                setDanceability(e.target.value);
+              }}
+            />
 
-          <a>Instrumentalness: </a>
-          <RangeStepInput min={0} max={1}
-            step={0.1}
-            onChange={e => {
-              setInstrumentalness(e.target.value);
-            }}
-          />
+            <a>Instrumentalness: </a>
+            <RangeStepInput min={0} max={1}
+              step={0.1}
+              onChange={e => {
+                setInstrumentalness(e.target.value);
+              }}
+            />
 
-          <a>Duration (ms): </a>
-          <RangeStepInput min={0} max={6000000}
-            step={100000}
-            onChange={e => {
-              setDuration(e.target.value);
-            }}
-          />
+            <a>Duration (ms): </a>
+            <RangeStepInput min={0} max={6000000}
+              step={100000}
+              onChange={e => {
+                setDuration(e.target.value);
+              }}
+            />
 
-          <a>Speechiness: </a>
-          <RangeStepInput min={0} max={1}
-            step={0.05}
-            onChange={e => {
-              setSpeechiness(e.target.value);
-            }}
-          />
+            <a>Speechiness: </a>
+            <RangeStepInput min={0} max={1}
+              step={0.05}
+              onChange={e => {
+                setSpeechiness(e.target.value);
+              }}
+            />
 
-          <a>Tempo: </a>
-          <RangeStepInput min={0} max={245}
-            step={10}
-            onChange={e => {
-              setTempo(e.target.value);
-            }}
-          />
+            <a>Tempo: </a>
+            <RangeStepInput min={0} max={245}
+              step={10}
+              onChange={e => {
+                setTempo(e.target.value);
+              }}
+            />
 
-          <a>Valence: </a>
-          <RangeStepInput min={0} max={1}
-            step={0.1}
-            onChange={e => {
-              setValence(e.target.value);
-            }}
-          />
+            <a>Valence: </a>
+            <RangeStepInput min={0} max={1}
+              step={0.1}
+              onChange={e => {
+                setValence(e.target.value);
+              }}
+            />
           </div>
 
           <button onClick={selectSong}> Search</button>
@@ -338,12 +326,11 @@ const Song = () => {
 
         </div>
 
-          <div label="Special">
+        <div label="Special">
           <b><h3>Special Hits</h3></b>
             <button onClick={selectSpecialList}> Special</button>
           <p id="specialResult"></p>
           </div>
-
         </div>
   );
 }
